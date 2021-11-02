@@ -1,1 +1,36 @@
-<p>diretiva-ngif works!</p>
+<h5>Diretiva ngIF - Recomendada para árvores grandes</h5>
+
+<div *ngIf="cursos.length > 0">
+    Lista de cursos aqui!
+</div>
+<div *ngIf="cursos.length === 0">
+    Não existem cursos para serem listados!
+</div>
+<div *ngIf="mostrarCursos">
+    Lista de cursos aqui!
+</div>
+<div *ngIf="!mostrarCursos">
+    Não existem cursos para serem listados!
+</div>
+<br>
+<button (click)="onMostrarCursos()">Mostrar ou esconder cursos</button>
+<!--Quanndo o curso for falso, a tag será comentada e a outra descomentada e vice versa-->
+
+<h5>Hidden como alternativa - Recomendado para árvores pequenas</h5>
+<div [hidden]="!mostrarCursos">
+    Lista de cursos aqui!
+</div>
+<div [hidden]="mostrarCursos">
+    Não existem cursos para serem listados!
+</div>
+
+<!-- Não recomendado 
+<h5>Removendo o * e usando o template</h5>
+
+<div *ngIf="mostrarCursos">
+    Lista de cursos aqui!
+</div>
+
+<div template="ngIf mostrarCursos">
+    Lista de cursos aqui!
+</div>-->
