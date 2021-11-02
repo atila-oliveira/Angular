@@ -3,3 +3,7 @@
 <app-data-binding></app-data-binding>
 <hr>
 <app-class-style-binding></app-class-style-binding>
+<hr>
+<app-ciclo [valorInicial]="valor" *ngIf="!deletarCiclo"></app-ciclo>
+<button (click)="mudarValor()">Mudar Valor</button>
+<button (click)="destruirCiclo()">Destruir Ciclo</button>
