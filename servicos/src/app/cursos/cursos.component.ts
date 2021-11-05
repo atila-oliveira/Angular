@@ -15,7 +15,7 @@ export class CursosComponent implements OnInit {
    }
 
   ngOnInit(): void {
-   this._cursosService.emitirCursosCriados.subscribe(curso =>{console.log(curso)})
+   CursosService.criouNovoCurso.subscribe(curso => this.cursos.push(curso))//notifica quando um novo valor é emitido
 
   }
 
