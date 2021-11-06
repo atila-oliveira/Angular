@@ -1,0 +1,14 @@
+<h5>Exemplos de Pipes</h5>
+<!--Um pipe é inserido após o | e podem ter parâmetros que são separados por : -->
+<!-- é possível passar mais de um pipe por elemento, será respeitada a ordem no qual o pipe foi inserido-->
+<p>Título: {{ livro.titulo | uppercase | lowercase | camelCase}}</p> <!-- primeiro transformou o texto todo em maiúsculo e depois pegou o texto em maiúsculo e transformou em minúsculo-->
+<p>Estrelas: {{ livro.rating | number:'1.1-1' }}</p> <!-- o primeiro numero é a quantidade de números na casa dos inteiros, o segundo número é o mínimo de números que devem ter nas casas decimais e o terceiro é o máximo de números que devem ter nas casas decimais-->
+<p>Páginas: {{ livro.numeroPaginas | number }}</p>
+<p>Preço: {{ livro.preco | currency:'BRL' }}</p> <!--formatação de moedas por tipos de moedas. BRL = Real Brasil. -->
+<p>Data lançamento: {{ livro.dataLancamento | date: 'dd-MMM-yyyy' }}</p> <!--Parametro para formato do Brasil. MM mostra o mês em números e MMM mostra em texto abreviado -->
+<p>URL: {{ livro.url }}</p>
+
+<br>
+
+<p>Livro: {{livro | json}}</p> <!-- formata um objeto para json-->
+
