@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 //import { CursoDetalheComponent } from './cursos/curso-detalhe/curso-detalhe.component';
 //import { CursosService } from './cursos/cursos.service';
 import { CursosModule } from './cursos/cursos.module';
+import { AlunosModule } from './alunos/alunos.module';
 //import { CursoNaoEncontradoComponent } from './cursos/curso-nao-encontrado/curso-nao-encontrado.component';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { CursosModule } from './cursos/cursos.module';
     BrowserModule,
     CursosModule,
     AppRoutingModule,
+    AlunosModule
   ],
   //providers: [CursosService],
   bootstrap: [AppComponent]
