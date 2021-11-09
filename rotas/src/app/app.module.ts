@@ -10,6 +10,9 @@ import { LoginComponent } from './login/login.component';
 //import { CursosService } from './cursos/cursos.service';
 import { CursosModule } from './cursos/cursos.module';
 import { AlunosModule } from './alunos/alunos.module';
+import { AuthService } from './login/auth.service';
+import { FormsModule } from '@angular/forms';
+import { AuthGuard } from './guards/auth.guard';
 //import { CursoNaoEncontradoComponent } from './cursos/curso-nao-encontrado/curso-nao-encontrado.component';
 
 @NgModule({
@@ -25,9 +28,11 @@ import { AlunosModule } from './alunos/alunos.module';
     BrowserModule,
     CursosModule,
     AppRoutingModule,
-    AlunosModule
+    AlunosModule,
+    FormsModule
   ],
   //providers: [CursosService],
+  providers:[AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
