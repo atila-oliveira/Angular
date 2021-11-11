@@ -8,9 +8,10 @@ import { CursosComponent } from './cursos.component';
 
 //define os endpoints das urls e o componente que será exibido no endpoint especificado
 const cursosRoutes: Routes = [
-  {path: '', component: CursosComponent, canActivate: [AuthGuard], canActivateChild: [CursosGuard]},//AuthGuard aplicado em cada rota que o usuário não pode acessar sem estar logado
+  //AuthGuard aplicado em cada rota que o usuário não pode acessar sem estar logado
   {path: 'naoEncontrado', component: CursoNaoEncontradoComponent, canActivate: [AuthGuard]},
-  {path:'curso/:id', component: CursoDetalheComponent, canActivate: [AuthGuard] }];
+  {path:'curso/:id', component: CursoDetalheComponent, canActivate: [AuthGuard] },
+  {path: '', component: CursosComponent, canActivate: [AuthGuard], canActivateChild: [CursosGuard]}];
 
 //const routing: ModuleWithProviders<any> = RouterModule.forRoot(routes);
 
