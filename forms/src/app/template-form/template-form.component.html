@@ -23,16 +23,18 @@
         </div>
     </div>
 
+    <div ngModelGroup="endereco">
     <div class="form-group row">
         <div class="col-md-3">
             <label for="cep" class="form-label">Cep</label>
-            <input type="text" #email="ngModel" [class.is-invalid]="!cep.valid && cep.touched" class="form-control"
-                id="cep" name="cep" [(ngModel)]="usuario.endereco.cep" required #cep="ngModel">
+            <input type="text" [class.is-invalid]="!cep.valid && cep.touched" class="form-control"
+                id="cep" name="cep" [(ngModel)]="usuario.endereco.cep" required #cep="ngModel"
+                (blur)="consultarCEP(f.value.endereco.cep, f)">
                 <div *ngIf="!cep.valid && cep.touched" class="invalid-feedback">CEP é obrigatório</div>
         </div>
         <div class="col-md-3">
             <label for="numero" class="form-label">Número</label>
-            <input type="text" #email="ngModel" [class.is-invalid]="!numero.valid && numero.touched" class="form-control"
+            <input type="text"  [class.is-invalid]="!numero.valid && numero.touched" class="form-control"
                 id="numero" name="numero" [(ngModel)]="usuario.endereco.numero" required #numero="ngModel">
                 <div *ngIf="!numero.valid && numero.touched" class="invalid-feedback">Número é obrigatório</div>
         </div>
@@ -70,6 +72,7 @@
                 id="estado" name="estado" [(ngModel)]="usuario.endereco.estado" readonly>
         </div>
     </div>
+</div>
     
 
     <br>
