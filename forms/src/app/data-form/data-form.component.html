@@ -1,1 +1,89 @@
-<p>data-form works!</p>
+<form class="form-group" style="margin-top: 25px;" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <div class="form-group has-validation">
+        <div class="col-sm-12">
+            <label for="nome" class="form-label">Nome</label>
+        </div>
+        <div class="col-sm-12">
+            <input type="text" class="form-control" id="nome" placeholder="nome" formControlName="nome">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <label for="email" class="form-label" >Email</label>
+        </div>
+        <div class="col-sm-12">
+            <input type="email" class="form-control"
+                id="email" placeholder="nome@email.com" formControlName="email">
+        </div>
+    </div>
+
+    <div formGroupName="endereco">
+        <div class="form-group row">
+            <div class="col-md-3">
+                <label for="cep" class="form-label">Cep</label>
+                <input type="text" class="form-control" id="cep" formControlName="cep"
+                (blur)="consultarCEP()">
+            </div>
+            <div class="col-md-3">
+                <label for="numero" class="form-label">Número</label>
+                <input type="text" class="form-control" id="numero" formControlName="numero">
+            </div>
+            <div class="col-md-6">
+                <label for="complemento" class="form-label">Complemento</label>
+                <input type="text" class="form-control" id="complemento" formControlName="complemento">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="rua" class="form-label">Rua</label>
+            </div>
+            <div class="col-md-12">
+                <input type="text" class="form-control" id="rua" formControlName="rua">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-4">
+                <label for="bairro" class="form-label">Bairro</label>
+                <input type="text" class="form-control" id="bairro" formControlName="bairro">
+
+            </div>
+            <div class="col-md-4">
+                <label for="cidade" class="form-label">Cidade</label>
+                <input type="text" class="form-control" id="cidade" formControlName="cidade">
+
+            </div>
+            <div class="col-md-4">
+                <label for="Estado" class="form-label">Estado</label>
+                <select class="form-control" id="estado" formControlName="estado">
+                  <option *ngFor="let estado of estados | async" [value]="estado.sigla">{{ estado.nome }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-4">
+        <label for="Cargo" class="form-label">Cargo</label>
+        <!--Usar ngValue para objetos e compareWith para comparar entre atributos de objetos-->
+        <select class="form-control" id="cargo" formControlName="cargo" [compareWith]="compararCargos">
+          <option *ngFor="let cargo of cargos" [ngValue]="cargo">{{ cargo.desc }}</option>
+        </select>
+    </div>
+      <div class="col-md-3">
+        <label for="Tecnologia" class="form-label">Tecnologia</label>
+        <!--Usar ngValue para objetos e compareWith para comparar entre atributos de objetos-->
+        <select multiple class="form-control" id="tecnologia" formControlName="tecnologia" [compareWith]="compararTecnologia">
+          <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{ tecnologia.desc }}</option>
+        </select>
+    </div>
+
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button class="btn-default" (click)="resetar()">Cancelar</button>
+    <button class="btn-info" (click)="setarCargo()">Cargo</button>
+    <button class="btn-info" (click)="setarTecnologias()">Tecnologia</button>
+
+    <app-form-debug [form]="formulario"></app-form-debug>
+</form>
