@@ -2,9 +2,10 @@ import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { DropdownService } from './../shared/services/dropdown.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EstadosBr } from '../shared/models/estados-br';
 import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-data-form',
@@ -14,10 +15,12 @@ import { Observable } from 'rxjs';
 export class DataFormComponent implements OnInit {
 
   formulario!: FormGroup;
- // estados!: EstadosBr[]
- estados!: Observable<EstadosBr[]>
- cargos!: any[]
- tecnologias!: any[]
+  // estados!: EstadosBr[]
+  estados!: Observable<EstadosBr[]>
+  cargos!: any[]
+  tecnologias!: any[]
+  newsletterOP!: any[]
+  frameworks: string[] = ['Angular', 'React', 'Vue', 'Sencha']
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private dropdownService: DropdownService, private cepService: ConsultaCepService) { }
 
@@ -26,21 +29,22 @@ export class DataFormComponent implements OnInit {
     this.cargos = this.dropdownService.getCargos()
     this.tecnologias = this.dropdownService.getTecnologias()
     this.estados = this.dropdownService.getEstadosBR()
-   /*this.formulario = new FormGroup({
-      //cada campo (chave) é um controle de formulário
-      nome: new FormControl(null),
-      email: new FormControl(null),
+    this.newsletterOP = this.dropdownService.getNewsletter()
+    /*this.formulario = new FormGroup({
+       //cada campo (chave) é um controle de formulário
+       nome: new FormControl(null),
+       email: new FormControl(null),
+ 
+       endereco: new FormGroup({
+         cep: new FormControl(null)
+       })
+     })*/
 
-      endereco: new FormGroup({
-        cep: new FormControl(null)
-      })
-    })*/
-
-  /*  this.dropdownService.getEstadosBR()
-    .subscribe(dados => {
-      this.estados = dados
-      console.log(dados)
-    })*/
+    /*  this.dropdownService.getEstadosBR()
+      .subscribe(dados => {
+        this.estados = dados
+        console.log(dados)
+      })*/
 
     this.formulario = this.formBuilder.group({
       //primeira posição do array é um valor padrão no campo
@@ -57,11 +61,28 @@ export class DataFormComponent implements OnInit {
         estado: [null, Validators.required]
       }),
       cargo: [null],
-      tecnologia: [null]
+      tecnologia: [null],
+      newsletter: ['s'],
+      termos: [null, Validators.pattern('true')],
+      frameworks: this.buildFrameworks()
     })
   }
 
-  onSubmit(){
+  buildFrameworks() {
+
+    const values = this.frameworks.map(v => new FormControl(false))
+    return this.formBuilder.array(values)
+    /*return[
+      new FormControl(false),
+      new FormControl(false),
+      new FormControl(false),
+      new FormControl(false)
+    ]*/
+  }
+  getFrameworksControls() {
+    return this.formulario.get('frameworks') ? (<FormArray>this.formulario.get('frameworks')).controls : null;
+  }
+  onSubmit() {
     console.log(this.formulario)
 
     if (this.formulario.valid) {
@@ -81,75 +102,75 @@ export class DataFormComponent implements OnInit {
 
   }
 
-  verificaValidacoesFormulario(formGroup: FormGroup){
+  verificaValidacoesFormulario(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(campo => {
       console.log(campo)
       const controle = formGroup.get(campo)
       controle?.markAsDirty()
-      if(controle instanceof FormGroup){
+      if (controle instanceof FormGroup) {
         this.verificaValidacoesFormulario(controle)
       }
     })
   }
 
-  resetar(){
+  resetar() {
     this.formulario.reset()
   }
 
-  consultarCEP(){
+  consultarCEP() {
 
     let cep = this.formulario.get('endereco.cep')?.value
 
-    if(cep != null && cep !==''){
-      this.cepService.consultarCEP(cep).subscribe((dados: any) => { this.populaDadosForm(dados)})
+    if (cep != null && cep !== '') {
+      this.cepService.consultarCEP(cep).subscribe((dados: any) => { this.populaDadosForm(dados) })
     }
 
   }
 
-  populaDadosForm(dados:any){
+  populaDadosForm(dados: any) {
 
     this.formulario.patchValue({
-      endereco:{
-        rua:  dados.logradouro,
+      endereco: {
+        rua: dados.logradouro,
         cep: dados.cep,
-        complemento:dados.complemento,
-        bairro:dados.bairro,
-        cidade:dados.localidade,
-        estado:dados.uf
+        complemento: dados.complemento,
+        bairro: dados.bairro,
+        cidade: dados.localidade,
+        estado: dados.uf
       }
     })
 
     this.formulario.get('nome')?.setValue('Juca')
   }
 
-  resetaDadosFormulario(){
+  resetaDadosFormulario() {
     this.formulario.patchValue({
-      endereco:{
-        rua:  null,
+      endereco: {
+        rua: null,
         cep: '',
-        complemento:null,
-        bairro:null,
-        cidade:null,
-        estado:null
+        complemento: null,
+        bairro: null,
+        cidade: null,
+        estado: null
       }
     })
   }
 
-  setarCargo(){
-    const cargo = {nome: 'Dev', nivel: 'Pleno', desc: 'Dev pl'}
+  setarCargo() {
+    const cargo = { nome: 'Dev', nivel: 'Pleno', desc: 'Dev pl' }
     this.formulario.get('cargo')?.setValue(cargo)
   }
 
-  setarTecnologias(){
+  setarTecnologias() {
     this.formulario.get('tecnologia')?.setValue(['Java', 'Javascript', 'PHP'])
   }
 
-  compararCargos(obj1: any, obj2: any){
+  compararCargos(obj1: any, obj2: any) {
     return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2;
 
   }
 
-  compararTecnologia(obj1: any, obj2: any){
+  compararTecnologia(obj1: any, obj2: any) {
     return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2;
 
   }

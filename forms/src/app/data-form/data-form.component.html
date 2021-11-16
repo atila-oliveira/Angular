@@ -9,11 +9,10 @@
     </div>
     <div class="form-group">
         <div class="col-sm-12">
-            <label for="email" class="form-label" >Email</label>
+            <label for="email" class="form-label">Email</label>
         </div>
         <div class="col-sm-12">
-            <input type="email" class="form-control"
-                id="email" placeholder="nome@email.com" formControlName="email">
+            <input type="email" class="form-control" id="email" placeholder="nome@email.com" formControlName="email">
         </div>
     </div>
 
@@ -21,8 +20,7 @@
         <div class="form-group row">
             <div class="col-md-3">
                 <label for="cep" class="form-label">Cep</label>
-                <input type="text" class="form-control" id="cep" formControlName="cep"
-                (blur)="consultarCEP()">
+                <input type="text" class="form-control" id="cep" formControlName="cep" (blur)="consultarCEP()">
             </div>
             <div class="col-md-3">
                 <label for="numero" class="form-label">Número</label>
@@ -55,27 +53,70 @@
             <div class="col-md-4">
                 <label for="Estado" class="form-label">Estado</label>
                 <select class="form-control" id="estado" formControlName="estado">
-                  <option *ngFor="let estado of estados | async" [value]="estado.sigla">{{ estado.nome }}</option>
+                    <option *ngFor="let estado of estados | async" [value]="estado.sigla">{{ estado.nome }}</option>
                 </select>
             </div>
         </div>
     </div>
 
     <div class="form-group row">
-      <div class="col-md-4">
-        <label for="Cargo" class="form-label">Cargo</label>
-        <!--Usar ngValue para objetos e compareWith para comparar entre atributos de objetos-->
-        <select class="form-control" id="cargo" formControlName="cargo" [compareWith]="compararCargos">
-          <option *ngFor="let cargo of cargos" [ngValue]="cargo">{{ cargo.desc }}</option>
-        </select>
-    </div>
-      <div class="col-md-3">
-        <label for="Tecnologia" class="form-label">Tecnologia</label>
-        <!--Usar ngValue para objetos e compareWith para comparar entre atributos de objetos-->
-        <select multiple class="form-control" id="tecnologia" formControlName="tecnologia" [compareWith]="compararTecnologia">
-          <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{ tecnologia.desc }}</option>
-        </select>
-    </div>
+        <div class="col-md-4">
+            <label for="Cargo" class="form-label">Cargo</label>
+            <!--Usar ngValue para objetos e compareWith para comparar entre atributos de objetos-->
+            <select class="form-control" id="cargo" formControlName="cargo" [compareWith]="compararCargos">
+                <option *ngFor="let cargo of cargos" [ngValue]="cargo">{{ cargo.desc }}</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="Tecnologia" class="form-label">Tecnologia</label>
+            <!--Usar ngValue para objetos e compareWith para comparar entre atributos de objetos-->
+            <select multiple class="form-control" id="tecnologia" formControlName="tecnologia"
+                [compareWith]="compararTecnologia">
+                <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{ tecnologia.desc }}</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="newsletter" class="control-label">Newsletter</label>
+            <!--Usar ngValue para objetos e compareWith para comparar entre atributos de objetos-->
+            <div id="newsletter" class="row">
+                <div class="col-sm-4" *ngFor="let item of newsletterOP">
+                    <label class="radio-inline form-check-label">
+                        <input type="radio" [value]="item.valor" class="form-check-input"
+                            formControlName="newsletter">{{ item.desc }}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-4">
+                <div class="form-check">
+                    <input class="form-check-input" formControlName="termos" type="checkbox" value=""
+                        id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Aceito os termos.
+                    </label>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+                <label for="frameworks">Frameworks</label>
+                <div id="frameworks">
+                  <div class="checkbox" class="col-sm-4"
+                    formArrayName="frameworks"
+                    *ngFor="let item of getFrameworksControls(); let i = index" >
+                    <label class="checkbox-inline">
+                      <input type="checkbox" [formControlName]="i"> {{ frameworks[i] }}
+                    </label>
+                  </div>
+                  <!--app-campo-control-erro [mostrarErro]="!formulario.get('frameworks').valid" msgErro="Selecione 1 opção">
+                    </app-campo-control-erro -->
+                </div>
+                </div>
+
+        </div>
 
     </div>
 
