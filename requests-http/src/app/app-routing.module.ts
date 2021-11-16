@@ -1,13 +1,25 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, UrlSerializer } from '@angular/router';
+
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'cursos'},
   {path: 'cursos', loadChildren: () => import('./cursos/cursos.module').then(m => m.CursosModule)}
+  //{path: 'url-invalida'}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  //scroollPositionResttoration: ao voltar à página anterior, irá voltar na área de onde o usuário parou para ir à próxima página
+  //malformedUriErrorHandler: caso a url passada tenha erro, volta pra tela 
+  //urlUpdateStrategy: eager (default) verifica as rotas configuradas antes de redirecionar. 'deferred' redireciona primeiro e depois verifica
+  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled',
+            /*malformedUriErrorHandler: (error:URIError, urlSerializer: UrlSerializer, url:string) =>{
+            console.log(url)
+            return urlSerializer.parse('/url-invalida');
+          },*/
+        urlUpdateStrategy: 'eager' //'deferred'
+      })
+      ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
