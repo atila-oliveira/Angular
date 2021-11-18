@@ -12,12 +12,17 @@ import { CursosService } from '../cursos.service';
 })
 export class CursosListaComponent implements OnInit {
 
+  //cursos!: Curso[]
   cursos$!: Observable<Curso[]>
 
   constructor(private service: CursosService) { }
 
   ngOnInit(): void {
+    //lembrar que sempre que tiver um subscribe precisará ter um unsubscribe
+   //this.service.listar().subscribe(dados => this.cursos = dados)
+
    this.cursos$ = this.service.listar()
+
   }
 
 }
