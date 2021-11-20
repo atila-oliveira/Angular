@@ -39,19 +39,19 @@ export class CursosListaComponent implements OnInit {
         return empty()
       })
     )
-    this.service.listar().
-    /*pipe(
-      catchError(erro => empty()) 
-    )*/
-    subscribe(
-      dados =>{ //escopo sucesso
-        console.log(dados)
-      },//escopo erro
-      error => console.error(error),
-      //escopo completo
-      () => console.log('Observable completo')
+    // this.service.listar().
+    // /*pipe(
+    //   catchError(erro => empty()) 
+    // )*/
+    // subscribe(
+    //   dados =>{ //escopo sucesso
+    //     console.log(dados)
+    //   },//escopo erro
+    //   error => console.error(error),
+    //   //escopo completo
+    //   () => console.log('Observable completo')
       
-    )
+    // )
 
   }
 

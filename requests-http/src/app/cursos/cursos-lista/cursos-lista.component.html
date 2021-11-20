@@ -36,12 +36,16 @@
         </tbody>
       </table>
       <ng-template #loading>
+        <span>Carregano cursos...</span>
+      </ng-template>
+
+     <!-- <ng-template #loading>
         <div *ngIf="erro$ | async; else loadingNoError">
           Erro ao carregar cursos, tente novamente mais tarde
         </div>
         <ng-template #loadingNoError>
           <span>Carregano cursos...</span>
         </ng-template>
-      </ng-template>
+      </ng-template>-->
     </div>
 </div>
