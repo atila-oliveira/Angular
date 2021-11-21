@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UploadFileService } from '../upload-file.service';
 
 @Component({
   selector: 'app-upload-file',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UploadFileComponent implements OnInit {
 
-  constructor() { }
+  files!: Set<File>
+
+  constructor(private uploadService: UploadFileService) { }
 
   ngOnInit(): void {
   }
@@ -19,12 +22,20 @@ export class UploadFileComponent implements OnInit {
   //document.getElementById('customFileLabel').innerHTML = selectedFiles[0].name;
 
   const filesName = []
+  this.files = new Set()
 
   for(let i = 0; i < selectedFiles.length; i++){
     filesName.push(selectedFiles[i].name)
+    this.files.add(selectedFiles[i])
   }
  let elemento: any = document.getElementById('customFileLabel')
   elemento.innerHTML =  filesName.join(', ');
+  }
+
+  onUpload(){
+    if(this.files && this.files.size > 0){
+      this.uploadService.upload(this.files, 'http://localhost:8000/upload').subscribe(response => console.log('Upload Concluído'))
+    }
   }
 
 }
