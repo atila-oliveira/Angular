@@ -7,6 +7,7 @@ import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
 import { Curso } from '../curso';
 import { CursosService } from '../cursos.service';
+import { Cursos2Service } from '../cursos2.service';
 
 @Component({
   selector: 'app-cursos-lista',
@@ -25,7 +26,7 @@ export class CursosListaComponent implements OnInit {
 
   @ViewChild('deleteModal') deleteModal: any  //ViewChild pega um variável criada no html
 
-  constructor(private service: CursosService, 
+  constructor(private service: Cursos2Service, 
    private modalService: BsModalService,
    private alertServices: AlertModalService, 
    private router: Router,
@@ -38,7 +39,7 @@ export class CursosListaComponent implements OnInit {
   }
 
   onRefresh(){
-    this.cursos$ = this.service.listar().pipe(
+    this.cursos$ = this.service.list().pipe(
       catchError(erro => {
         console.error(erro)
         //this.erro$.next(true)

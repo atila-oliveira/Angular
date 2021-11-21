@@ -6,6 +6,7 @@ import { concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators'
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { Curso } from '../curso';
 import { CursosService } from '../cursos.service';
+import { Cursos2Service } from '../cursos2.service';
 
 @Component({
   selector: 'app-cursos-form',
@@ -18,7 +19,7 @@ export class CursosFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: CursosService,
+    private service: Cursos2Service,
     private modal: AlertModalService,
     private location: Location,
     private route: ActivatedRoute
@@ -38,7 +39,7 @@ export class CursosFormComponent implements OnInit {
     //em casos de rotas, não é preciso fazer unsubscribe
     this.route.params.pipe(
       map((params: any) => params['id']),//vai mapear o valor recebido e retornar o valor modificado
-      switchMap(id => this.service.loadById(id)), //retorna outro observable
+      switchMap(id => this.service.loadByID(id)), //retorna outro observable
       //switchMap cancela requisições antriores e retorna apenas o último pedido
       //switchMap(curso => obterAulas)
 
