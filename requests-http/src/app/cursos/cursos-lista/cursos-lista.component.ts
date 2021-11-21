@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { empty, Observable, Subject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { EMPTY, empty, Observable, Subject } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
 import { Curso } from '../curso';
@@ -43,7 +43,7 @@ export class CursosListaComponent implements OnInit {
         console.error(erro)
         //this.erro$.next(true)
         this.handleError();
-        return empty()
+        return EMPTY
       })
     )
     // this.service.listar().
@@ -75,13 +75,24 @@ export class CursosListaComponent implements OnInit {
 
   onDelete(curso: Curso){
     this.cursoSelecionado = curso
-    this.deleteModalRef = this.modalService.show(this.deleteModal, {class: 'modal-sm'})
+    //this.deleteModalRef = this.modalService.show(this.deleteModal, {class: 'modal-sm'})
+    const result$ = this.alertServices.showConfirm('Confirmação', 'Tem certeza que deseja remover esse curso?')
+    result$.asObservable().pipe(take(1),switchMap(result => result ? this.service.remove(curso.id) : EMPTY)).subscribe(// se a lógica cair no EMPTY, o observable para e não executa o subscribe
+      success => {
+        this.onRefresh()
+       // this.deleteModalRef.hide()
+      },
+        error => {
+          //this.deleteModalRef.hide()
+          this.alertServices.showAlertDanger('Erro ao remover curso, tente novamente mais tarde')}
+    )
   }
 
   onConfirmDelete(){
     this.service.remove(this.cursoSelecionado.id).subscribe(
       success => {this.onRefresh()
-      this.deleteModalRef.hide()},
+      this.deleteModalRef.hide()
+    },
       error => {
         this.deleteModalRef.hide()
         this.alertServices.showAlertDanger('Erro ao remover curso, tente novamente mais tarde')}
