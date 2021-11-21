@@ -1,6 +1,8 @@
 # RequestsHttp
 
 json-server --watch db.json
+npm install -save express body-parser connect-multiparty cors
+npm run start
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.12.
 
